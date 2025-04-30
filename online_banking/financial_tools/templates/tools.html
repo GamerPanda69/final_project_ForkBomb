@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container slide-in">
+    <h2>Financial Tools</h2>
+    {% if result %}<p class="text-success">{{ result }}</p>{% endif %}
+    {% if error %}<p class="text-danger">{{ error }}</p>{% endif %}
+    <div class="tool-section">
+        <button class="btn btn-info tool-btn" data-tool="emi">EMI Calculator</button>
+        <div id="emi" class="tool-form" style="display:none;">
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="tool" value="emi">
+                <label>Principal:</label><input type="number" name="principal" step="0.01" required><br>
+                <label>Annual Rate (%):</label><input type="number" name="rate" step="0.01" required><br>
+                <label>Tenure (Years):</label><input type="number" name="tenure" required><br>
+                <button type="submit" class="btn btn-primary">Calculate</button>
+            </form>
+        </div>
+        <button class="btn btn-info tool-btn" data-tool="sip">SIP Calculator</button>
+        <div id="sip" class="tool-form" style="display:none;">
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="tool" value="sip">
+                <label>Monthly Investment:</label><input type="number" name="investment" step="0.01" required><br>
+                <label>Annual Rate (%):</label><input type="number" name="rate" step="0.01" required><br>
+                <label>Tenure (Years):</label><input type="number" name="tenure" required><br>
+                <button type="submit" class="btn btn-primary">Calculate</button>
+            </form>
+        </div>
+        <button class="btn btn-info tool-btn" data-tool="fd">FD Calculator</button>
+        <div id="fd" class="tool-form" style="display:none;">
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="tool" value="fd">
+                <label>Principal:</label><input type="number" name="principal" step="0.01" required><br>
+                <label>Annual Rate (%):</label><input type="number" name="rate" step="0.01" required><br>
+                <label>Tenure (Years):</label><input type="number" name="tenure" required><br>
+                <button type="submit" class="btn btn-primary">Calculate</button>
+            </form>
+        </div>
+        <button class="btn btn-info tool-btn" data-tool="rd">RD Calculator</button>
+        <div id="rd" class="tool-form" style="display:none;">
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="tool" value="rd">
+                <label>Monthly Deposit:</label><input type="number" name="deposit" step="0.01" required><br>
+                <label>Annual Rate (%):</label><input type="number" name="rate" step="0.01" required><br>
+                <label>Tenure (Years):</label><input type="number" name="tenure" required><br>
+                <button type="submit" class="btn btn-primary">Calculate</button>
+            </form>
+        </div>
+        <button class="btn btn-info tool-btn" data-tool="retirement">Retirement Corpus Estimator</button>
+        <div id="retirement" class="tool-form" style="display:none;">
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="tool" value="retirement">
+                <label>Current Age:</label><input type="number" name="current_age" required><br>
+                <label>Retirement Age:</label><input type="number" name="retirement_age" required><br>
+                <label>Monthly Expenses:</label><input type="number" name="monthly_expenses" step="0.01" required><br>
+                <label>Inflation Rate (%):</label><input type="number" name="inflation_rate" step="0.01" required><br>
+                <label>Expected Return Rate (%):</label><input type="number" name="return_rate" step="0.01" required><br>
+                <button type="submit" class="btn btn-primary">Calculate</button>
+            </form>
+        </div>
+        <button class="btn btn-info tool-btn" data-tool="home_loan">Home Loan Eligibility Estimator</button>
+        <div id="home_loan" class="tool-form" style="display:none;">
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="tool" value="home_loan">
+                <label>Monthly Income:</label><input type="number" name="income" step="0.01" required><br>
+                <label>Monthly Obligations:</label><input type="number" name="obligations" step="0.01" required><br>
+                <label>Interest Rate (%):</label><input type="number" name="rate" step="0.01" required><br>
+                <label>Tenure (Years):</label><input type="number" name="tenure" required><br>
+                <button type="submit" class="btn btn-primary">Calculate</button>
+            </form>
+        </div>
+        <button class="btn btn-info tool-btn" data-tool="credit_card">Credit Card Balance Calculator</button>
+        <div id="credit_card" class="tool-form" style="display:none;">
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="tool" value="credit_card">
+                <label>Current Balance:</label><input type="number" name="balance" step="0.01" required><br>
+                <label>Annual Interest Rate (%):</label><input type="number" name="rate" step="0.01" required><br>
+                <label>Minimum Payment (%):</label><input type="number" name="min_payment" step="0.01" required><br>
+                <label>Months:</label><input type="number" name="months" required><br>
+                <button type="submit" class="btn btn-primary">Calculate</button>
+            </form>
+        </div>
+        <button class="btn btn-info tool-btn" data-tool="taxable_income">Taxable Income Calculator</button>
+        <div id="taxable_income" class="tool-form" style="display:none;">
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="tool" value="taxable_income">
+                <label>Gross Income:</label><input type="number" name="gross_income" step="0.01" required><br>
+                <label>Deductions:</label><input type="number" name="deductions" step="0.01" required><br>
+                <button type="submit" class="btn btn-primary">Calculate</button>
+            </form>
+        </div>
+        <button class="btn btn-info tool-btn" data-tool="budget">Budget Planner</button>
+        <div id="budget" class="tool-form" style="display:none;">
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="tool" value="budget">
+                <label>Monthly Income:</label><input type="number" name="income" step="0.01" required><br>
+                <label>Monthly Expenses:</label><input type="number" name="expenses" step="0.01" required><br>
+                <button type="submit" class="btn btn-primary">Calculate</button>
+            </form>
+        </div>
+        <button class="btn btn-info tool-btn" data-tool="net_worth">Net Worth Calculator</button>
+        <div id="net_worth" class="tool-form" style="display:none;">
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="tool" value="net_worth">
+                <label>Total Assets:</label><input type="number" name="assets" step="0.01" required><br>
+                <label>Total Liabilities:</label><input type="number" name="liabilities" step="0.01" required><br>
+                <button type="submit" class="btn btn-primary">Calculate</button>
+            </form>
+        </div>
+    </div>
+    <a href="{% url 'dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+</div>
+{% endblock %}

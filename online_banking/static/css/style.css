@@ -1,0 +1,48 @@
+body {
+    background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.slide-in {
+    animation: slideIn 0.5s ease-in-out;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+.tool-section {
+    margin-top: 20px;
+}
+
+.tool-btn {
+    margin: 10px 0;
+    width: 100%;
+}
+
+.tool-form {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    background: #fafafa;
+}
+
+form label {
+    margin-right: 10px;
+}
+
+form input {
+    margin-bottom: 10px;
+    padding: 5px;
+}

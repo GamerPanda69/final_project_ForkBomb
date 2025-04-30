@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Loan Estimation - Online Banking{% endblock %}
+
+{% block content %}
+<div class="loan-estimation-container slide-in">
+    <h2><i class="fas fa-chart-line icon"></i> Loan Amount Estimator</h2>
+    <p>Estimate the potential loan amount you might be eligible for based on your details. This is an estimate only.</p>
+
+    {% if messages %}
+    <div class="messages-container">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if model_error %}
+        <div class="alert alert-danger">
+            The loan estimation tool is currently unavailable. Please try again later or contact support.
+        </div>
+    {% else %}
+        <div class="card estimation-form-card">
+             <div class="card-body">
+                <h4 class="card-title">Enter Your Details</h4>
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    <div class="row">
+                     {% for field in form %}
+                        <div class="col-md-6 mb-3">
+                            {{ field.label_tag }}
+                            {{ field }}
+                            {% if field.help_text %}<small class="form-text text-muted">{{ field.help_text }}</small>{% endif %}
+                            {% for error in field.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+                        </div>
+                    {% endfor %}
+                    </div>
+                     {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+                        </div>
+                    {% endif %}
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-cogs"></i> Estimate Loan Amount</button>
+                </form>
+            </div>
+        </div>
+
+        {% if prediction is not None %}
+            <div class="alert alert-info result-box mt-4">
+                <strong>Estimated Loan Amount:</strong> ₹{{ prediction }}
+                <p><small>Disclaimer: This is a statistical estimation based on the provided data and our model. Actual loan approval and amount depend on bank verification and policies.</small></p>
+            </div>
+        {% endif %}
+    {% endif %}
+
+     <div class="navigation-links mt-4">
+         <a href="{% url 'dashboard' %}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+     </div>
+
+</div>
+{% endblock %}

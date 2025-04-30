@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Financial Tools - Online Banking{% endblock %}
+
+{% block content %}
+<div class="tools-container slide-in">
+    <h2><i class="fas fa-calculator icon"></i> Financial Calculators</h2>
+    <p>Plan your finances with our range of calculators.</p>
+
+    {% if messages %}
+    <div class="messages-container">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if calculation_result %}
+        <div class="alert alert-success result-box">
+            <strong>Result:</strong> {{ calculation_result }}
+        </div>
+    {% endif %}
+
+    <div class="accordion" id="toolsAccordion">
+        {# Iterate through the dictionary of form INSTANCES from the view #}
+        {% for tool_key, form_instance in forms_instances.items %}
+        <div class="accordion-item">
+            <h3 class="accordion-header" id="heading-{{ tool_key }}">
+                <button class="accordion-button {% if active_tool != tool_key %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ tool_key }}" aria-expanded="{% if active_tool == tool_key %}true{% else %}false{% endif %}" aria-controls="collapse-{{ tool_key }}">
+                    {# Use TOOL_NAMES dictionary for display name #}
+                    {# *** CORRECTED LINE: Use dot notation for dictionary lookup *** #}
+                    <i class="fas fa-{{ tool_key|slugify }} icon"></i> {{ tool_names.tool_key|default:tool_key|title }} Calculator
+                </button>
+            </h3>
+            <div id="collapse-{{ tool_key }}" class="accordion-collapse collapse {% if active_tool == tool_key %}show{% endif %}" aria-labelledby="heading-{{ tool_key }}" data-bs-parent="#toolsAccordion">
+                <div class="accordion-body">
+                    <form method="post" class="tool-form" novalidate>
+                        {% csrf_token %}
+                        <input type="hidden" name="tool_name" value="{{ tool_key }}">
+
+                        {# Render the form instance directly #}
+                        {% for field in form_instance %}
+                            <div class="mb-3">
+                                {{ field.label_tag }}
+                                {{ field }}
+                                {% if field.help_text %}<small class="form-text text-muted">{{ field.help_text }}</small>{% endif %}
+                                {% for error in field.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+                            </div>
+                        {% endfor %}
+
+                        {% if form_instance.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {% for error in form_instance.non_field_errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-check-circle"></i> Calculate</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+     <div class="navigation-links mt-4 text-center"> {# Centered navigation links #}
+         <a href="{% url 'dashboard' %}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+     </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{# Bootstrap JS bundle already included in base.html is sufficient for the accordion #}
+{% endblock %}

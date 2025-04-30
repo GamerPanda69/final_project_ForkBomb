@@ -1,6 +1,7 @@
+# financial_tools/urls.py
 from django.urls import path
-from .views import tools
+from . import views
 
 urlpatterns = [
-    path('', tools, name='tools'),
+    path('', views.tools, name='tools'),
 ]

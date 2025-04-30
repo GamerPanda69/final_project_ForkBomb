@@ -1,8 +1,11 @@
+# banking/urls.py
 from django.urls import path
-from .views import dashboard, deposit, withdraw
+from . import views
 
 urlpatterns = [
-    path('', dashboard, name='dashboard'),
-    path('deposit/', deposit, name='deposit'),
-    path('withdraw/', withdraw, name='withdraw'),
+    # The dashboard is now the root for the banking app ('/dashboard/')
+    path('', views.dashboard, name='dashboard'),
+    # These URLs handle the form submissions from the dashboard
+    path('deposit/', views.deposit, name='deposit'),
+    path('withdraw/', views.withdraw, name='withdraw'),
 ]

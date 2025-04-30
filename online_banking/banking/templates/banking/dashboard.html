@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard - Online Banking{% endblock %}
+
+{% block content %}
+<div class="dashboard-container slide-in">
+    <h2><i class="fas fa-tachometer-alt icon"></i> Dashboard</h2>
+    <p class="welcome-message">Welcome back, <strong>{{ user.username }}</strong>!</p>
+
+    {% if messages %}
+    <div class="messages-container">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> {# Requires Bootstrap JS #}
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="balance-card card">
+        <div class="card-body">
+            <h3 class="card-title"><i class="fas fa-wallet icon"></i> Current Balance</h3>
+            <p class="balance-amount">₹{{ account.balance|default:"0.00" }}</p>
+        </div>
+    </div>
+
+    <div class="actions-section">
+        <h3><i class="fas fa-exchange-alt icon"></i> Quick Actions</h3>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="action-card card">
+                    <div class="card-body">
+                        <h4 class="card-title"><i class="fas fa-arrow-down icon text-success"></i> Deposit Funds</h4>
+                        <form method="post" action="{% url 'deposit' %}" class="action-form">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                {{ deposit_form.amount.label_tag }}
+                                {{ deposit_form.amount }}
+                                {% if deposit_form.amount.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {% for error in deposit_form.amount.errors %} {{error}} {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <button type="submit" class="btn btn-success"><i class="fas fa-plus-circle"></i> Deposit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                 <div class="action-card card">
+                    <div class="card-body">
+                        <h4 class="card-title"><i class="fas fa-arrow-up icon text-warning"></i> Withdraw Funds</h4>
+                        <form method="post" action="{% url 'withdraw' %}" class="action-form">
+                            {% csrf_token %}
+                             <div class="mb-3">
+                                {{ withdraw_form.amount.label_tag }}
+                                {{ withdraw_form.amount }}
+                                {% if withdraw_form.amount.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {% for error in withdraw_form.amount.errors %} {{error}} {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <button type="submit" class="btn btn-warning"><i class="fas fa-minus-circle"></i> Withdraw</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation-links mt-4 text-center">
+        <a href="{% url 'tools' %}" class="btn btn-info me-2"><i class="fas fa-calculator"></i> Financial Tools</a>
+        <a href="{% url 'loan_estimation' %}" class="btn btn-secondary"><i class="fas fa-chart-line"></i> Loan Estimator</a>
+         {# Logout form is handled in base.html navigation #}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{# Add specific JS for this page if needed #}
+{# Example: Dismiss alerts automatically after a few seconds #}
+<script>
+    $(document).ready(function() {
+        // Optional: Auto-dismiss alerts
+        window.setTimeout(function() {
+            $(".alert-dismissible").fadeTo(500, 0).slideUp(500, function(){
+                $(this).remove();
+            });
+        }, 5000); // 5 seconds
+    });
+</script>
+{% endblock %}

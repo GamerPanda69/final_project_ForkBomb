@@ -2,8 +2,6 @@
 
 *   Python 3.11 installed and added to PATH.
 *   `pip` (Python package installer).
-*   Git (Optional, for cloning).
-*   (Potentially) Microsoft C++ Build Tools (if installing packages requires compilation on Windows and pre-built wheels aren't found - see Installation step).
 
 **Steps:**
 

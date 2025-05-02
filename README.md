@@ -30,11 +30,10 @@
         ```
     *   Install required packages:
         ```bash
-        # If you encounter SSL errors (often on corporate networks), try adding --trusted-host flags:
+    
         # pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org -r requirements.txt
         pip install -r requirements.txt
         ```
-        *(If installation fails requiring C++ build tools, follow instructions to install "Desktop development with C++" from the Visual Studio Installer, restart, activate venv, and try `pip install` again).*
 
 4.  **Place Dataset:**
     *   Ensure the dataset file `loan_amount_prediction_dataset_v2.csv` is present in the project root directory (`online_banking/`).
